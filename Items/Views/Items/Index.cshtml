@@ -1,0 +1,66 @@
+@model IEnumerable<Item>
+
+<h1 class="text-center">
+    <i class="fas fa-comments-dollar text-success"></i>
+    Items
+</h1>
+
+
+@* <table class="table"> *@
+@* <table class="table-section"> *@
+<table class="table table-borderless table-hover rounded box-shadow shadow">
+    <thead class="thead-light">
+    @* <thead > *@
+    <tr class="shadow-sm box-shadow">
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParentId)
+        </th>
+        @* <th></th> *@
+        @* <th> *@
+        @*     <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", null, Context.Request.Scheme)','New Item')" class="btn btn-success text-white"> *@
+        @*         <i class="fas fa-random"></i> New Item *@
+        @*     </a> *@
+        @* </th> *@
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentId)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a onclick="showInPopup('@Url.Action("Create", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button">
+                            Добавить
+                        </a>
+                        <a onclick="showInPopup('@Url.Action("Update", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button">
+                            Редактировать
+                        </a>
+                        <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                            <input type="submit" value="Delete" class="dropdown-item"/>
+                        </form>
+                        <button class="dropdown-item" type="button">Another action</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

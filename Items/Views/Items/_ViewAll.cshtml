@@ -1,0 +1,89 @@
+@model IEnumerable<Item>
+
+<h1 class="text-center">
+    <i class="fas fa-comments-dollar text-success"></i>
+    Items
+</h1>
+
+
+@* <table class="table"> *@
+@* <table class="table-section"> *@
+<table class="table table-borderless table-hover rounded box-shadow shadow">
+    <thead class="thead-light">
+    @* <thead > *@
+    <tr class="shadow-sm box-shadow">
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+        @* <th></th> *@
+        @* <th> *@
+        @*     <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", null, Context.Request.Scheme)','New Item')" class="btn btn-success text-white"> *@
+        @*         <i class="fas fa-random"></i> New Item *@
+        @*     </a> *@
+        @* </th> *@
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <div>
+                    @* <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", new { id = item.ID }, Context.Request.Scheme)','Update Transaction')" class="btn btn-info text-white"> *@
+                    @*     <i class="fas fa-pencil-alt"></i> Edit *@
+                    @* </a> *@
+                    @* <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)" class="d-inline"> *@
+                    @*     <input type="submit" value="Delete" class="btn btn-danger"/> *@
+                    @* </form> *@
+                </div>
+
+                @* <div class="dropdown"> *@
+                @*     <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> *@
+                @*     </button> *@
+                @* *@
+                @*     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> *@
+                @*         $1$ <div id="dialogContent" class="modal-dialog"></div> #1# *@
+                @*         $1$ <a class="dropdown-item" href="~/Entity/Edit/@item.ID">Update</a> #1# *@
+                @*         <div id="dialogContent" class="modal-dialog"> *@
+                @*             <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", new { id = item.ID }, Context.Request.Scheme)','Update Transaction')" class="btn btn-info text-white"> *@
+                @*                 <i class="fas fa-pencil-alt"></i> Edit *@
+                @*             </a> *@
+                @*         </div> *@
+                @* *@
+                @*         <div id="dialogContent" class="modal-dialog"> *@
+                @*             <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)" class="d-inline"> *@
+                @*                 <input type="submit" value="Delete" class="btn btn-danger"/> *@
+                @*             </form> *@
+                @*         </div> *@
+                @*     </div> *@
+                @* *@
+                @* </div> *@
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <button class="dropdown-item" type="button">Action</button>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button">
+                            Редактировать
+                        </a>
+
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button">
+                            Добавить
+                        </a>
+                        <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                            <input type="submit" value="Delete" class="dropdown-item"/>
+                        </form>
+                        <button class="dropdown-item" type="button">Another action</button>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

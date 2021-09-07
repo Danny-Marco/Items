@@ -1,0 +1,20 @@
+@model int
+
+<div class="btn-group">
+    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+        <a onclick="showInPopup('@Url.Action("Create", "Items", new { id = Model }, Context.Request.Scheme)')
+                                "class="dropdown-item" type="button">
+            Добавить
+        </a>
+        <a onclick="showInPopup('@Url.Action("Update", "Items", new { id = Model }, Context.Request.Scheme)')"
+           class="dropdown-item" type="button">
+            Редактировать
+        </a>
+        <form asp-action="Delete" asp-route-id="@Model" onsubmit="return jQueryAjaxDelete(this)"
+              class="d-inline">
+            <input type="submit" value="Удалить" class="dropdown-item"/>
+        </form>
+    </div>
+</div>

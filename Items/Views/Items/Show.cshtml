@@ -1,0 +1,61 @@
+@model ItemViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<body>
+<h2>@Model.Name</h2>
+
+@{
+    var children = new List<Item>();
+    if (Model.Children.Count != 0)
+    {
+        children = Model.Children;
+    }
+}
+
+<table class="table table-borderless table-hover rounded box-shadow shadow">
+    <thead class="thead-light">
+    <tr class="shadow-sm box-shadow">
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in children)
+    {
+        <tr>
+            <td>
+                <a asp-controller="Items" asp-action="Show" asp-route-id="@item.ID">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </a>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a onclick="showInPopup('@Url.Action("Create", "Items", new { id = item.ID }, Context.Request.Scheme)')
+                                "class="dropdown-item" type="button">
+                            Добавить
+                        </a>
+                        <a onclick="showInPopup('@Url.Action("Update", "Items", new { id = item.ID }, Context.Request.Scheme)')"
+                           class="dropdown-item" type="button">
+                            Редактировать
+                        </a>
+                        <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)"
+                              class="d-inline">
+                            <input type="submit" value="Удалить" class="dropdown-item"/>
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+</body>

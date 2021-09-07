@@ -21,9 +21,9 @@ namespace Items.Controllers
 
         public IActionResult ParentsIndex()
         {
-            // var items = _context.Items.Where(i => i.ParentId == null) as IEnumerable<Item>;
             var items = _items.GetParents();
-            return View(items);
+            return View("Parents", items);
+            // return View("ParentsIndex", items);
         }
 
         public IActionResult Index()
@@ -48,6 +48,19 @@ namespace Items.Controllers
             return View("AddOrEdit", new Item());
         }
 
+        public IActionResult Show(int id)
+        {
+            var item = _items.GetById(id);
+            var itemViewModel = new ItemViewModel
+            {
+                ID = item.ID,
+                Name = item.Name,
+                ParentId = item.ParentId,
+                Children = _items.GetChildrenByID(id).ToList()
+            };
+            return PartialView(itemViewModel);
+        }
+        
         [HttpPost]
         public async Task<IActionResult> Add([Bind("Name")] Item item)
         {
@@ -93,7 +106,6 @@ namespace Items.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> AddOrEdit(int id, [Bind("ID, ParentsId, Name")] Item item)
         public async Task<IActionResult> AddOrEdit(int id, [Bind("ID ParentId, Name")] Item item)
         {
             if (ModelState.IsValid)
@@ -136,8 +148,7 @@ namespace Items.Controllers
                 { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", typeof(Item)) });
         }
 
-        //----------------------------------------------------------------------------------------------------
-        
+        // TODO отдебажить
         public async Task<IActionResult> Create(int id = 0)
         {
             if (id == 0)
@@ -150,10 +161,13 @@ namespace Items.Controllers
             {
                 return NotFound();
             }
-
-            return View(item);
+            return View(new Item()
+            {
+                ParentId = id
+            });
         }
 
+        // TODO отдебажить
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int id, [Bind("ID, Name, ParentId")] Item item)
@@ -198,6 +212,7 @@ namespace Items.Controllers
             });
         }
 
+        // TODO отдебажить
         public async Task<IActionResult> Update(int id)
         {
             if (id == 0)
@@ -213,7 +228,8 @@ namespace Items.Controllers
                 return View(item);
             }
         }
-        
+
+        // TODO отдебажить
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update([Bind("ID, Name, ParentId")] Item item)
@@ -256,13 +272,10 @@ namespace Items.Controllers
                 { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", item) });
         }
 
-
-        // -----------------------------------------------------------------------------------------------------
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var item = await _context.Items.FindAsync(id);
-            // _context.Items.Remove(item);
             _items.Delete(item);
             await _context.SaveChangesAsync();
             return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Items.ToList()) });

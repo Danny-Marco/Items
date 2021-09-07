@@ -21,12 +21,12 @@
         <th>
             @Html.DisplayNameFor(model => model.ParentId)
         </th>
-        @* <th></th> *@
-        @* <th> *@
-        @*     <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", null, Context.Request.Scheme)','New Item')" class="btn btn-success text-white"> *@
-        @*         <i class="fas fa-random"></i> New Item *@
-        @*     </a> *@
-        @* </th> *@
+        <th></th>
+        <th>
+            <a onclick="showInPopup('@Url.Action("Create", "Items", null, Context.Request.Scheme)','New Item')" class="btn btn-success text-white">
+                <i class="fas fa-random"></i> New Item
+            </a>
+        </th>
     </tr>
     </thead>
     <tbody>

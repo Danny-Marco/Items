@@ -6,7 +6,6 @@
 }
 
 <body>
-<h2>@Model.Name</h2>
 
 @{
     var children = new List<Item>();
@@ -17,18 +16,22 @@
 }
 
 <table class="table table-borderless table-hover rounded box-shadow shadow">
-    <thead class="thead-light">
-    <tr class="shadow-sm box-shadow">
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
+    @* <thead class="thead-light"> *@
+    @* <tr class="shadow-sm box-shadow"> *@
+    @*     <th> *@
+    @*         @Html.DisplayNameFor(model => model.Name) *@
+    @*     </th> *@
+    @*     <th></th> *@
+    @* </tr> *@
+    @* </thead> *@
     <tbody>
+    @{
+        await Html.RenderPartialAsync("ShowChildren", children.ToList());
+    }
+    @*
     @foreach (var item in children)
     {
-        <tr>
+        @*<tr>
             <td>
                 <a asp-controller="Items" asp-action="Show" asp-route-id="@item.ID">
                     @Html.DisplayFor(modelItem => item.Name)
@@ -54,8 +57,7 @@
                     </div>
                 </div>
             </td>
-        </tr>
-    }
+        </tr>*@
     </tbody>
 </table>
 </body>

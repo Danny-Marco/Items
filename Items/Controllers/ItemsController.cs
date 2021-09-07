@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Items.Database;
@@ -18,6 +19,12 @@ namespace Items.Controllers
             _context = context;
             _items = items;
         }
+        
+        //---------------------------------------------------
+        
+        
+        
+        //---------------------------------------------------
 
         public IActionResult ParentsIndex()
         {
@@ -46,6 +53,11 @@ namespace Items.Controllers
         public IActionResult Add()
         {
             return View("AddOrEdit", new Item());
+        }
+
+        public IActionResult RenderItem()
+        {
+            return Redirect("Show");
         }
 
         public IActionResult Show(int id)

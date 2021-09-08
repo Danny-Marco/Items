@@ -5,7 +5,6 @@
     Layout = "_Layout";
 }
 
-
 <h1 class="text-center">
     <i class="fas fa-comments-dollar text-success"></i>
     Items
@@ -30,14 +29,6 @@
                     <a asp-controller="Items" asp-action="Show" asp-route-id="@item.ID">
                         @Html.DisplayName(item.Name)
                     </a>
-
-                    @* <a href="getChildren/(@item.ID)" class="click" data-url="@Url.Action("Show", new { id = item.ID })"> *@
-                    @*     @Html.DisplayName(item.Name) *@
-                    @* </a> *@
-
-                    <div id="details">
-
-                    </div>
                 </div>
             </td>
             <td>
@@ -45,36 +36,5 @@
             </td>
         </tr>
     }
-
-    @* <script type="text/javascript"> *@
-    @*         $(document).on("click", "#UpdateBlock", function () { *@
-    @*                 var url = "/Items/Show"; *@
-    @*                 $.get(url, function (data) { *@
-    @*                     $("#content").html(data); *@
-    @*                 }); *@
-    @*          }); *@
-    @* </script> *@
-    <script>
-            function getChildren(id) {
-                var url = "/Items/Show/";
-                $.post(url, { id: id })
-                 .done(function (response) {
-                        $("#details").html(response);
-                })}
-    </script>
     </tbody>
 </table>
-
-@* <script> *@
-@*     $(document).ready(function () {  *@
-@*         $.ajax({ *@
-@*             url: '/Items/Show', *@
-@*             type: 'POST', *@
-@*             async: false, *@
-@*             data: { ModelField: value}, *@
-@*             success: function (result) { *@
-@*                 $("#your_desired_div_id").html(result); *@
-@*             } *@
-@*         }); *@
-@*     }); *@
-@* </script> *@

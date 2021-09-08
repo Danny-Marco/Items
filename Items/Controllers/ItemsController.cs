@@ -25,23 +25,14 @@ namespace Items.Controllers
         // TODO ока нужен. Не удалять
         public IActionResult Index()
         {
-            // var items = _context.Items as IEnumerable<Item>;
             var items = _items.GetAll();
-
             return View(items);
         }
 
         public IActionResult Show(int id)
         {
-            var item = _items.GetById(id);
-            var itemViewModel = new ItemViewModel
-            {
-                ID = item.ID,
-                Name = item.Name,
-                ParentId = item.ParentId,
-                Children = _items.GetChildrenByID(id).ToList()
-            };
-            return PartialView(itemViewModel);
+            var children = _items.GetChildrenByID(id).ToList();
+            return PartialView("_Show", children);
         }
 
         public async Task<IActionResult> Create(int id = 0)

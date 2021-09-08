@@ -31,7 +31,6 @@ jQueryAjaxPost = form => {
                 console.log(err)
             }
         })
-        //to prevent default form submit event
         return false;
     } catch (ex) {
         console.log(ex)
@@ -59,7 +58,6 @@ jQueryAjaxDelete = form => {
         }
     }
 
-    //prevent default form submit event
     return false;
 }
 

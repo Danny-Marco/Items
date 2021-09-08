@@ -68,11 +68,11 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <button class="dropdown-item" type="button">Action</button>
-                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button">
+                        <a onclick="showInPopup('@Url.Action("Update", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button">
                             Редактировать
                         </a>
 
-                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button">
+                        <a onclick="showInPopup('@Url.Action("Create", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button">
                             Добавить
                         </a>
                         <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">

@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Items.Database;
 using Items.Models;
 using Items.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -12,52 +10,25 @@ namespace Items.Controllers
     public class ItemsController : Controller
     {
         private readonly IItemRepository _items;
-        private readonly ItemsContext _context;
 
-        public ItemsController(ItemsContext context, IItemRepository items)
+        public ItemsController(IItemRepository items)
         {
-            _context = context;
             _items = items;
         }
-        
-        //---------------------------------------------------
-        
-        
-        
-        //---------------------------------------------------
 
         public IActionResult ParentsIndex()
         {
             var items = _items.GetParents();
             return View("Parents", items);
-            // return View("ParentsIndex", items);
         }
 
+        // TODO ока нужен. Не удалять
         public IActionResult Index()
         {
             // var items = _context.Items as IEnumerable<Item>;
             var items = _items.GetAll();
 
             return View(items);
-        }
-
-        public IActionResult ItemsByParentID(int id)
-        {
-            // var items = _context.Items.Where(i => i.ParentId == id) as IEnumerable<Item>;
-            var items = _items.GetChildrenByID(id);
-
-            return View("_ViewAll");
-            // return View(items);
-        }
-
-        public IActionResult Add()
-        {
-            return View("AddOrEdit", new Item());
-        }
-
-        public IActionResult RenderItem()
-        {
-            return Redirect("Show");
         }
 
         public IActionResult Show(int id)
@@ -72,41 +43,39 @@ namespace Items.Controllers
             };
             return PartialView(itemViewModel);
         }
-        
+
+        public async Task<IActionResult> Create(int id = 0)
+        {
+            return View(new Item
+            {
+                ParentId = id
+            });
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Add([Bind("Name")] Item item)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ID, Name, ParentId")] Item item)
         {
             if (ModelState.IsValid)
             {
-                if (item != null)
-                {
-                    // _context.Add(item);
-                    _items.Add(item);
-                    await _context.SaveChangesAsync();
-                }
+                _items.Add(item);
+                _items.Save();
 
                 return Json(new
                 {
                     isValid = true,
-                    html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Items.ToList())
+                    html = Helper.RenderRazorViewToString(this, "Parents", _items.GetAll())
                 });
             }
 
             return Json(new
             {
-                isValid = false,
-                html = Helper.RenderRazorViewToString(this, "AddOrEdit", typeof(Item))
+                isValid = false, html = Helper.RenderRazorViewToString(this, "Create", item)
             });
         }
 
-        public async Task<IActionResult> AddOrEdit(int id = 0)
+        public async Task<IActionResult> Update(int id)
         {
-            if (id == 0)
-            {
-                return View(new Item());
-            }
-
-            // var item = await _context.Items.FindAsync(id);
             var item = _items.GetById(id);
             if (item == null)
             {
@@ -118,185 +87,49 @@ namespace Items.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, [Bind("ID ParentId, Name")] Item item)
-        {
-            if (ModelState.IsValid)
-            {
-                //Insert
-                if (id == 0)
-                {
-                    // _context.Add(item);
-                    _items.Add(item);
-                    await _context.SaveChangesAsync();
-                }
-                //Update
-                else
-                {
-                    try
-                    {
-                        _context.Items.Update(item);
-                        // _items.Update(item);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ItemExists(item.ID))
-                        {
-                            return NotFound();
-                        }
-
-                        throw;
-                    }
-                }
-
-                return Json(new
-                {
-                    isValid = true,
-                    html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Items.ToList())
-                });
-            }
-
-            return Json(new
-                { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", typeof(Item)) });
-        }
-
-        // TODO отдебажить
-        public async Task<IActionResult> Create(int id = 0)
-        {
-            if (id == 0)
-            {
-                return View(new Item());
-            }
-
-            var item = await _context.Items.FindAsync(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return View(new Item()
-            {
-                ParentId = id
-            });
-        }
-
-        // TODO отдебажить
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id, [Bind("ID, Name, ParentId")] Item item)
-        {
-            if (ModelState.IsValid)
-            {
-                if (item.ID == 0)
-                {
-                    _items.Add(item);
-                    await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    try
-                    {
-                        _items.Update(item);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ItemExists(item.ID))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }
-
-                return Json(new
-                {
-                    isValid = true,
-                    html = Helper.RenderRazorViewToString(this, "_ViewAll", _items.GetAll())
-                });
-            }
-
-            return Json(new
-            {
-                isValid = false, html = Helper.RenderRazorViewToString(this, "Create", item)
-            });
-        }
-
-        // TODO отдебажить
-        public async Task<IActionResult> Update(int id)
-        {
-            if (id == 0)
-                return View(new Item());
-            else
-            {
-                var item = await _context.Items.FindAsync(id);
-                if (item == null)
-                {
-                    return NotFound();
-                }
-
-                return View(item);
-            }
-        }
-
-        // TODO отдебажить
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update([Bind("ID, Name, ParentId")] Item item)
         {
             if (ModelState.IsValid)
             {
-                if (item.ID == 0)
+                try
                 {
-                    _items.Add(item);
-                    await _context.SaveChangesAsync();
+                    _items.Update(item);
+                    _items.Save();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    try
+                    if (!ItemExists(item.ID))
                     {
-                        _items.Update(item);
-                        await _context.SaveChangesAsync();
+                        return NotFound();
                     }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ItemExists(item.ID))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
+
+                    throw;
                 }
 
                 return Json(new
                 {
                     isValid = true,
-                    html = Helper.RenderRazorViewToString(this, "_ViewAll", _items.GetAll())
+                    html = Helper.RenderRazorViewToString(this, "Parents", _items.GetAll())
                 });
             }
 
             return Json(new
-                { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", item) });
+                { isValid = false, html = Helper.RenderRazorViewToString(this, "Update", item) });
         }
 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var item = await _context.Items.FindAsync(id);
+            var item = _items.GetById(id);
             _items.Delete(item);
-            await _context.SaveChangesAsync();
-            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Items.ToList()) });
+            _items.Save();
+            return Json(new { html = Helper.RenderRazorViewToString(this, "Parents", _items.GetAll()) });
         }
 
 
         private bool ItemExists(int id)
         {
-            return _context.Items.Any(i => i.ID == id);
+            return _items.GetAll().Any(i => i.ID == id);
         }
     }
 }

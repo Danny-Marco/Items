@@ -47,8 +47,6 @@ namespace Items.Repository
 
         public void Update(Item item)
         {
-            // _context.Items.Update(item);
-            // _context.Entry(item).State = EntityState.Modified;
             var foundItem = GetById(item.ID);
             foundItem.ParentId = item.ParentId;
             foundItem.Name = item.Name;

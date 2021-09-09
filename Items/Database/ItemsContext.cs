@@ -18,49 +18,43 @@ namespace Items.Database
                 {
                     ID = 1,
                     ParentId = null,
-                    Name = "Item 1"
+                    Name = "Technique"
                 },
                 new Item
                 {
                     ID = 2,
                     ParentId = null,
-                    Name = "Item 2"
+                    Name = "Furniture"
                 },
                 new Item
                 {
                     ID = 3,
-                    ParentId = null,
-                    Name = "Item 3"
+                    ParentId = 1,
+                    Name = "TV sets"
                 },
                 new Item
                 {
                     ID = 4,
-                    ParentId = 1,
-                    Name = "Item 4"
+                    ParentId = 3,
+                    Name = "Samsung"
                 },
                 new Item
                 {
                     ID = 5,
-                    ParentId = 1,
-                    Name = "Item 5"
+                    ParentId = 3,
+                    Name = "LG"
                 },
                 new Item
                 {
                     ID = 6,
                     ParentId = 2,
-                    Name = "Item 6"
+                    Name = "Armchairs"
                 },
                 new Item
                 {
                     ID = 7,
-                    ParentId = 3,
-                    Name = "Item 7"
-                },
-                new Item
-                {
-                    ID = 8,
-                    ParentId = 3,
-                    Name = "Item 8"
+                    ParentId = 2,
+                    Name = "Sofas"
                 }
             );
         }

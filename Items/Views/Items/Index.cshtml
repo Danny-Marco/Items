@@ -5,12 +5,8 @@
     Items
 </h1>
 
-
-@* <table class="table"> *@
-@* <table class="table-section"> *@
 <table class="table table-borderless table-hover rounded box-shadow shadow">
     <thead class="thead-light">
-    @* <thead > *@
     <tr class="shadow-sm box-shadow">
         <th>
             @Html.DisplayNameFor(model => model.ID)
@@ -43,22 +39,6 @@
                 @Html.DisplayFor(modelItem => item.ParentId)
             </td>
             <td>
-                @* <div class="btn-group"> *@
-                @*     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> *@
-                @*     </button> *@
-                @*     <div class="dropdown-menu dropdown-menu-right"> *@
-                @*         <a onclick="showInPopup('@Url.Action("Create", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button"> *@
-                @*             Добавить *@
-                @*         </a> *@
-                @*         <a onclick="showInPopup('@Url.Action("Update", "Items", new { id = item.ID }, Context.Request.Scheme)')" class="dropdown-item" type="button"> *@
-                @*             Редактировать *@
-                @*         </a> *@
-                @*         <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)" class="d-inline"> *@
-                @*             <input type="submit" value="Delete" class="dropdown-item"/> *@
-                @*         </form> *@
-                @*         <button class="dropdown-item" type="button">Another action</button> *@
-                @*     </div> *@
-                @* </div> *@
                 @{ await Html.RenderPartialAsync("_DropDownWithButtons", item.ID); }
             </td>
         </tr>

@@ -1,7 +1,6 @@
 @model IEnumerable<Item>
 
 @{
-    ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
@@ -10,10 +9,9 @@
     Items
 </h1>
 
-<div id="listOfCustomers"/>
 <table class="table table-borderless table-hover rounded box-shadow shadow">
     <thead class="thead-light">
-    <tr class="shadow-sm box-shadow " id="listOfCustomers">
+    <tr class="shadow-sm box-shadow ">
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -25,11 +23,9 @@
     {
         <tr>
             <td>
-                <div id="UpdateBlock">
-                    <a asp-controller="Items" asp-action="Show" asp-route-id="@item.ID">
-                        @Html.DisplayName(item.Name)
-                    </a>
-                </div>
+                <a asp-controller="Items" asp-action="Show" asp-route-id="@item.ID">
+                    @Html.DisplayName(item.Name)
+                </a>
             </td>
             <td>
                 @{ await Html.RenderPartialAsync("_DropDownWithButtons", item.ID); }

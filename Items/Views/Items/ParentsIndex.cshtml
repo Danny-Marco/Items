@@ -1,13 +1,11 @@
 @model IEnumerable<Item>
 
 @{
-    ViewData["Title"] = "Index";
     Layout = "_Layout";
 }
 
 <div id="view-all">
-    @await Html.PartialAsync("_ViewAll", Model)
-    @* @await Html.PartialAsync("Parents", Model) *@
+    @await Html.PartialAsync("Parents", Model)
 </div>
 
 @section Scripts{

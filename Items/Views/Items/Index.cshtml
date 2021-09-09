@@ -1,5 +1,9 @@
 @model IEnumerable<Item>
 
+@{
+    Layout = "_Layout";
+}
+
 <h1 class="text-center">
     <i class="fas fa-comments-dollar text-success"></i>
     Items
@@ -7,22 +11,11 @@
 
 <table class="table table-borderless table-hover rounded box-shadow shadow">
     <thead class="thead-light">
-    <tr class="shadow-sm box-shadow">
-        <th>
-            @Html.DisplayNameFor(model => model.ID)
-        </th>
+    <tr class="shadow-sm box-shadow ">
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ParentId)
-        </th>
         <th></th>
-        <th>
-            <a onclick="showInPopup('@Url.Action("Create", "Items", null, Context.Request.Scheme)','New Item')" class="btn btn-success text-white">
-                <i class="fas fa-random"></i> New Item
-            </a>
-        </th>
     </tr>
     </thead>
     <tbody>
@@ -30,13 +23,9 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentId)
+                <a asp-controller="Items" asp-action="Show" asp-route-id="@item.ID">
+                    @Html.DisplayName(item.Name)
+                </a>
             </td>
             <td>
                 @{ await Html.RenderPartialAsync("_DropDownWithButtons", item.ID); }

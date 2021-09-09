@@ -19,6 +19,11 @@ namespace Items.Repository
             return _context.Items.Where(i => i.ParentId == null);
         }
 
+        public bool ItemExists(int id)
+        {
+            return _context.Items.Any(i => i.ID == id);
+        }
+
         public IEnumerable<Item> GetChildrenByID(int id)
         {
             return _context.Items.Where(i => i.ParentId == id);

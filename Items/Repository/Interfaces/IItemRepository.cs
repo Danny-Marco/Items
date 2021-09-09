@@ -6,5 +6,7 @@ namespace Items.Repository
     public interface IItemRepository : Irepository<Item>
     {
         IEnumerable<Item> GetParents();
+
+        bool ItemExists(int id);
     }
 }

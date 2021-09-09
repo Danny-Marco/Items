@@ -16,17 +16,10 @@ namespace Items.Controllers
             _items = items;
         }
 
-        public IActionResult ParentsIndex()
-        {
-            var items = _items.GetParents();
-            return View("Parents", items);
-        }
-
-        // TODO ока нужен. Не удалять
         public IActionResult Index()
         {
-            var items = _items.GetAll();
-            return View(items);
+            var items = _items.GetParents();
+            return View("Index", items);
         }
 
         public IActionResult Show(int id)
@@ -55,7 +48,7 @@ namespace Items.Controllers
                 return Json(new
                 {
                     isValid = true,
-                    html = Helper.RenderRazorViewToString(this, "Parents", _items.GetAll())
+                    html = Helper.RenderRazorViewToString(this, "Index", _items.GetAll())
                 });
             }
 
@@ -89,7 +82,7 @@ namespace Items.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemExists(item.ID))
+                    if (!_items.ItemExists(item.ID))
                     {
                         return NotFound();
                     }
@@ -100,7 +93,7 @@ namespace Items.Controllers
                 return Json(new
                 {
                     isValid = true,
-                    html = Helper.RenderRazorViewToString(this, "Parents", _items.GetAll())
+                    html = Helper.RenderRazorViewToString(this, "Index", _items.GetAll())
                 });
             }
 
@@ -114,13 +107,7 @@ namespace Items.Controllers
             var item = _items.GetById(id);
             _items.Delete(item);
             _items.Save();
-            return Json(new { html = Helper.RenderRazorViewToString(this, "Parents", _items.GetAll()) });
-        }
-
-
-        private bool ItemExists(int id)
-        {
-            return _items.GetAll().Any(i => i.ID == id);
+            return Json(new { html = Helper.RenderRazorViewToString(this, "Index", _items.GetAll()) });
         }
     }
 }

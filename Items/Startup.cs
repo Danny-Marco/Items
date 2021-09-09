@@ -51,7 +51,7 @@ namespace Items
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Items}/{action=ParentsIndex}/{id?}");
+                    pattern: "{controller=Items}/{action=Index}/{id?}");
             });
             app.UseStaticFiles();
         }

@@ -26,6 +26,7 @@ jQueryAjaxPost = form => {
                     $('#form-modal').modal('hide');
                 } else
                     $('#form-modal .modal-body').html(res.html);
+                location.reload(true);
             },
             error: function (err) {
                 console.log(err)
@@ -47,7 +48,7 @@ jQueryAjaxDelete = form => {
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                    $('#view-all').html(res.html);
+                    location.reload(true);
                 },
                 error: function (err) {
                     console.log(err)
